@@ -1,0 +1,73 @@
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kind create cluster --name cni-poc
+Creating cluster "cni-poc" ...
+ • Ensuring node image (kindest/node:v1.33.1) 🖼  ...
+ ✓ Ensuring node image (kindest/node:v1.33.1) 🖼
+ • Preparing nodes 📦   ...
+ ✓ Preparing nodes 📦
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing CNI 🔌  ...
+ ✓ Installing CNI 🔌
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+Set kubectl context to "kind-cni-poc"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-cni-poc
+
+Have a nice day! 👋
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:49658
+CoreDNS is running at https://127.0.0.1:49658/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl get pods -n kube-system
+NAME                                            READY   STATUS    RESTARTS   AGE
+coredns-674b8bbfcf-8nlmp                        1/1     Running   0          81s
+coredns-674b8bbfcf-r74n5                        1/1     Running   0          81s
+etcd-cni-poc-control-plane                      1/1     Running   0          93s
+kindnet-j9xxs                                   1/1     Running   0          81s
+kube-apiserver-cni-poc-control-plane            1/1     Running   0          92s
+kube-controller-manager-cni-poc-control-plane   1/1     Running   0          92s
+kube-proxy-8p8gq                                1/1     Running   0          81s
+kube-scheduler-cni-poc-control-plane            1/1     Running   0          94s
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ vim frontend-deployment.yml
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ vim backend-deployment.yml
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f frontend.yaml
+error: the path "frontend.yaml" does not exist
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f frontend-deployment.yaml
+error: the path "frontend-deployment.yaml" does not exist
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f frontend-deployment.yml
+deployment.apps/frontend created
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f backend-deployment.yml
+deployment.apps/backend created
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl get pods
+NAME                        READY   STATUS              RESTARTS   AGE
+backend-7fbfc578b7-6t278    0/1     ContainerCreating   0          25s
+backend-7fbfc578b7-mm5k8    0/1     ContainerCreating   0          25s
+frontend-5956b7488c-8p8hq   1/1     Running             0          40s
+frontend-5956b7488c-zsw8s   1/1     Running             0          40s
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$
