@@ -70,4 +70,60 @@ frontend-5956b7488c-8p8hq   1/1     Running             0          40s
 frontend-5956b7488c-zsw8s   1/1     Running             0          40s
 
 Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
-$
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+backend-7fbfc578b7-6t278    1/1     Running   0          2m41s
+backend-7fbfc578b7-mm5k8    1/1     Running   0          2m41s
+frontend-5956b7488c-8p8hq   1/1     Running   0          2m56s
+frontend-5956b7488c-zsw8s   1/1     Running   0          2m56s
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl get pods -o wide
+NAME                        READY   STATUS    RESTARTS   AGE     IP           NODE                    NOMINATED NODE   READINESS GATES
+backend-7fbfc578b7-6t278    1/1     Running   0          3m3s    10.244.0.7   cni-poc-control-plane   <none>           <none>
+backend-7fbfc578b7-mm5k8    1/1     Running   0          3m3s    10.244.0.8   cni-poc-control-plane   <none>           <none>
+frontend-5956b7488c-8p8hq   1/1     Running   0          3m18s   10.244.0.6   cni-poc-control-plane   <none>           <none>
+frontend-5956b7488c-zsw8s   1/1     Running   0          3m18s   10.244.0.5   cni-poc-control-plane   <none>           <none>
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl exec -it frontend-5956b7488c-8p8hq -- curl 10.244.0.8
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>It works! Apache httpd</title>
+</head>
+<body>
+<p>It works!</p>
+</body>
+</html>
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ vim backend-svc.yml
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f backend-svc.yaml
+error: the path "backend-svc.yaml" does not exist
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl apply -f backend-svc.yml
+service/backend-svc created
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl get svc
+NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+backend-svc   ClusterIP   10.96.233.57   <none>        80/TCP    8s
+kubernetes    ClusterIP   10.96.0.1      <none>        443/TCP   10m
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
+$ kubectl exec -it frontend-5956b7488c-8p8hq -- curl backend-svc
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>It works! Apache httpd</title>
+</head>
+<body>
+<p>It works!</p>
+</body>
+</html>
+
+Lenovo@DESKTOP-M5DT73G MINGW64 /d/Study/Golang/src/Golang_basics/go-rest-api
